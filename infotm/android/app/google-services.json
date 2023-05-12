@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "881138160747",
+    "project_id": "infotm-db",
+    "storage_bucket": "infotm-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881138160747:android:9a15ffc69fc42a09b10d2e",
+        "android_client_info": {
+          "package_name": "com.example.infotm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881138160747-lvsrt49fpj9f29a2j30bs4hmc56s8ogl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkplNyaJUjDeR0KYKyK4MgrsU6uYLip8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881138160747-lvsrt49fpj9f29a2j30bs4hmc56s8ogl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "881138160747-6m4r63iguutfkrnd0rjmauc6quhp5873.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.infotm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
