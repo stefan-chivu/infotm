@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infotm/screens/home/home.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
 Future<void> main() async {
   // TODO: initialize future services
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
