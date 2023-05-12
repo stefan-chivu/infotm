@@ -11,8 +11,15 @@ class Pin {
   String? scheduleStart;
   String? scheduleEnd;
 
-  Pin(this.id, this.latitude, this.longitude, this.type,
-      [this.name, this.address, this.scheduleStart, this.scheduleEnd]);
+  Pin(
+      {required this.id,
+      required this.latitude,
+      required this.longitude,
+      required this.type,
+      this.name,
+      this.address,
+      this.scheduleStart,
+      this.scheduleEnd});
 
   Marker buildMarker() {
     double markerHue;
