@@ -10,7 +10,7 @@ import 'constants.dart';
 
 class SqlService {
   static final pool = MySQLConnectionPool(
-      host: "http://35.211.208.184/",
+      host: "35.211.208.184",
       port: 3306,
       userName: 'infotm',
       password: 'qt88I45d[BubbdgN',

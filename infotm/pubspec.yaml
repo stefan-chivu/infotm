@@ -43,6 +43,7 @@ dependencies:
   mysql_client: ^0.0.27
   isar: *isar_version
   isar_flutter_libs: *isar_version # contains Isar Core
+  flutter_riverpod: ^2.1.3
 
 
 dev_dependencies:
