@@ -25,132 +25,125 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Register',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Builder(builder: (BuildContext context) {
-          return Center(
-              child: SingleChildScrollView(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Image.asset(
-                "assets/images/logo.png",
-                width: 500,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppMargins.S),
-                child: Form(
-                  key: _emailFormKey,
-                  child: CustomTextField(
-                    label: "E-mail",
-                    validator: (val) {
-                      if (val == null || val.trim().isEmpty) {
-                        return "Please enter a valid e-mail address";
-                      }
-                      // Check if the entered email has the right format
-                      if (!RegExp(r'\S+@\S+\.\S+').hasMatch(val)) {
-                        return "Please enter a valid e-mail address";
-                      }
-                      // Return null if the entered email is valid
-                      return null;
-                    },
-                    controller: _emailController,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppMargins.S),
-                child: Form(
-                  key: _passwordFormKey,
-                  child: CustomTextField(
-                    label: "Password",
-                    isPassword: true,
-                    validator: (val) {
-                      if (val!.trim().isEmpty) {
-                        return "Please enter a valid password";
-                      }
-                      return null;
-                    },
-                    controller: _passwordController,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppMargins.S),
-                child: Form(
-                  key: _confirmPasswordFormKey,
-                  child: CustomTextField(
-                    label: "Confirm password",
-                    isPassword: true,
-                    validator: (val) {
-                      if (val!.trim() != _passwordController.text) {
-                        return "The passwords do not match";
-                      }
-                      return null;
-                    },
-                    controller: _confirmPasswordController,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppMargins.M),
-                child: CustomButton(
-                    text: "Create account",
-                    onPressed: () async {
-                      if (_emailFormKey.currentState!.validate() &&
-                          _passwordFormKey.currentState!.validate() &&
-                          _confirmPasswordFormKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Registration successful"),
-                            duration: Duration(seconds: 3),
-                            action: SnackBarAction(
-                              label: "OK",
-                              onPressed: () {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                              },
-                            ),
-                          ),
-                        );
-                        // String result = await _auth.registerWithEmailAndPassword(
-                        //     _emailController.text, _passwordController.text);
-                        // if (mounted) {
-                        //   if (!result.contains("success")) {
-                        //     ScaffoldMessenger.of(context)
-                        //         .showSnackBar(SnackBar(content: Text(result)));
-                        //   } else {
-                        //     Navigator.pushNamed(context, '/');
-                        //   }
-                        // }
-                      }
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(AppMargins.S),
-                child: InkWell(
-                  //navigate to login
-                  onTap: () {
-                    Navigator.pop(context);
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: Builder(builder: (BuildContext context) {
+        return Center(
+            child: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Image.asset(
+              "assets/images/logo.png",
+              width: 500,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppMargins.S),
+              child: Form(
+                key: _emailFormKey,
+                child: CustomTextField(
+                  label: "E-mail",
+                  validator: (val) {
+                    if (val == null || val.trim().isEmpty) {
+                      return "Please enter a valid e-mail address";
+                    }
+                    // Check if the entered email has the right format
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(val)) {
+                      return "Please enter a valid e-mail address";
+                    }
+                    // Return null if the entered email is valid
+                    return null;
                   },
-                  child: const Text("Already have an account?",
-                      style: TextStyle(
-                          fontSize: AppFontSizes.M,
-                          color: AppColors.burntSienna)),
+                  controller: _emailController,
                 ),
               ),
-              const SizedBox(
-                height: AppMargins.L,
-              )
-            ]),
-          ));
-        }),
-      ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppMargins.S),
+              child: Form(
+                key: _passwordFormKey,
+                child: CustomTextField(
+                  label: "Password",
+                  isPassword: true,
+                  validator: (val) {
+                    if (val!.trim().isEmpty) {
+                      return "Please enter a valid password";
+                    }
+                    return null;
+                  },
+                  controller: _passwordController,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppMargins.S),
+              child: Form(
+                key: _confirmPasswordFormKey,
+                child: CustomTextField(
+                  label: "Confirm password",
+                  isPassword: true,
+                  validator: (val) {
+                    if (val!.trim() != _passwordController.text) {
+                      return "The passwords do not match";
+                    }
+                    return null;
+                  },
+                  controller: _confirmPasswordController,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppMargins.M),
+              child: CustomButton(
+                  text: "Create account",
+                  onPressed: () async {
+                    if (_emailFormKey.currentState!.validate() &&
+                        _passwordFormKey.currentState!.validate() &&
+                        _confirmPasswordFormKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Registration successful"),
+                          duration: Duration(seconds: 3),
+                          action: SnackBarAction(
+                            label: "OK",
+                            onPressed: () {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                            },
+                          ),
+                        ),
+                      );
+                      // String result = await _auth.registerWithEmailAndPassword(
+                      //     _emailController.text, _passwordController.text);
+                      // if (mounted) {
+                      //   if (!result.contains("success")) {
+                      //     ScaffoldMessenger.of(context)
+                      //         .showSnackBar(SnackBar(content: Text(result)));
+                      //   } else {
+                      //     Navigator.pushNamed(context, '/');
+                      //   }
+                      // }
+                    }
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppMargins.S),
+              child: InkWell(
+                //navigate to login
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Already have an account?",
+                    style: TextStyle(
+                        fontSize: AppFontSizes.M,
+                        color: AppColors.burntSienna)),
+              ),
+            ),
+            const SizedBox(
+              height: AppMargins.L,
+            )
+          ]),
+        ));
+      }),
     );
 
     ;
