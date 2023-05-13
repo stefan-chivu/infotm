@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infotm/screens/auth/profile_wrapper.dart';
 import 'package:infotm/screens/auth/register.dart';
 import 'package:infotm/screens/home/home.dart';
+import 'package:infotm/screens/pin/add_pin.dart';
 import 'package:infotm/services/isar.dart';
 import 'package:infotm/services/location.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
@@ -14,7 +15,7 @@ Future<void> main() async {
   await IsarService.openSchemas();
   await LocationService.init();
 
-  runApp(const ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
               error: AppColors.burntSienna),
         ),
         routes: {
-          '/': (context) => const HomePage(),
+          '/': (context) => const AddPin(),
           '/profile': (context) => const ProfileWrapper(),
           '/register': (context) => const RegisterPage(),
         });

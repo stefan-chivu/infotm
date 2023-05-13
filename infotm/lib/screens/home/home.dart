@@ -32,7 +32,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       return Scaffold(
         body: Stack(children: [
           GoogleMap(
-            trafficEnabled: true, // TODO add toggle
+            trafficEnabled: true,
             myLocationEnabled: true,
             markers: providerData.markers,
             initialCameraPosition: const CameraPosition(
@@ -44,7 +44,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             onCameraMove: (position) {
               setState(() {
                 tmpPosition = position.target;
-              });
+              });  
             },
           ),
           Align(

@@ -64,4 +64,8 @@ class IsarService {
   static String getUid() {
     return isarUser.uid;
   }
+
+  static bool getAdminStatus() {
+    return isarUser.isAdmin;
+  }
 }
