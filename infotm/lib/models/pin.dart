@@ -23,23 +23,20 @@ class Pin {
       this.scheduleEnd});
 
   var icons = {
-    PinType.toilet: 'package:infotm/assets/icons/toilet.png',
-    PinType.hospital: 'package:infotm/assets/icons/hospital.png',
-    PinType.waterFountain: 'package:infotm/assets/icons/waterFountain.png',
-    PinType.institution: 'package:infotm/assets/icons/institution.png',
-    PinType.park: 'package:infotm/assets/icons/park.png',
-    PinType.other: 'package:infotm/assets/icons/other.png',
+    PinType.toilet: 'assets/icons/toilet.png',
+    PinType.hospital: 'assets/icons/hospital.png',
+    PinType.waterFountain: 'assets/icons/waterFountain.png',
+    PinType.institution: 'assets/icons/institution.png',
+    PinType.park: 'assets/icons/park.png',
+    PinType.other: 'assets/icons/other.png',
   };
 
-  Marker buildMarker() {
-    late BitmapDescriptor customIcon;
+  Future<Marker> buildMarker() async {
+    BitmapDescriptor customIcon;
 
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(48, 48)),
-            icons[type] ?? 'assets/icons/other.png')
-        .then((d) {
-      customIcon = d;
-    });
+    customIcon = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(devicePixelRatio: 2),
+        icons[type] ?? 'assets/icons/other.png');
 
     return Marker(
       markerId: MarkerId(id.toString()),
