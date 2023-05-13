@@ -1,4 +1,4 @@
-//import 'package:infotm/services/auth.dart';
+import 'package:infotm/services/auth.dart';
 import 'package:infotm/ui_components/custom_button.dart';
 import 'package:infotm/ui_components/custom_textfield.dart';
 import 'package:infotm/ui_components/loading_snack_bar.dart';
@@ -13,6 +13,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService _auth = AuthService();
+  final _emailFormKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,20 +26,43 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
           child: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Image.asset(
+            "assets/logo.png",
+            width: 500,
+          ),
           Padding(
             padding: const EdgeInsets.all(AppMargins.S),
             child: Form(
+              key: _emailFormKey,
               child: CustomTextField(
                 label: "E-mail",
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "E-mail address is required";
+                  }
+                  if (!RegExp(r'\S+@\S+\.\S+').hasMatch(val)) {
+                    return "Enter a valid e-mail address";
+                  }
+                  return null;
+                },
+                controller: _emailController,
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(AppMargins.S),
             child: Form(
+              key: _passwordFormKey,
               child: CustomTextField(
                 label: "Password",
                 isPassword: true,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "Password is required";
+                  }
+                  return null;
+                },
+                controller: _passwordController,
               ),
             ),
           ),
@@ -43,6 +72,19 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     showLoadingSnackBar(context, "Logging in...",
                         color: AppColors.burntSienna, durationSeconds: 2);
+                    if (_emailFormKey.currentState!.validate() &&
+                        _passwordFormKey.currentState!.validate()) {
+                      String result = await _auth.signInWithEmailAndPassword(
+                          _emailController.text, _passwordController.text);
+                      if (mounted) {
+                        if (!result.contains("success")) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text(result)));
+                        } else {
+                          Navigator.pushNamed(context, '/');
+                        }
+                      }
+                    }
                   },
                   text: "Sign-in")),
           Padding(
