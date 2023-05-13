@@ -42,6 +42,8 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
   ];
 
   List<String> locationOptions = ["indoor", "outdoor", "both"];
+  List<String> busyRelaxedOptions = ["busy", "relaxed"];
+  List<String> boolOptions = ["yes", "no"];
 
   List<String> _interests = [];
   List<String> _indoor = [];
@@ -53,8 +55,8 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
 
   int currentStep = 0;
 
-  static const Duration textDuration = Duration(milliseconds: 0);
-  // static const Duration textDuration = Duration(milliseconds: 50);
+  // static const Duration textDuration = Duration(milliseconds: 0);
+  static const Duration textDuration = Duration(milliseconds: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +97,7 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
               padding: const EdgeInsets.symmetric(horizontal: AppMargins.M),
               child: Center(
                 child: Stepper(
+                  physics: const ClampingScrollPhysics(),
                   type: StepperType.vertical,
                   currentStep: currentStep,
                   onStepCancel: () => currentStep == 0
@@ -106,7 +109,7 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
                     animateNextStepQuestion(currentStep);
                     bool isLastStep = (currentStep == getSteps().length - 1);
                     if (isLastStep) {
-                      //Do something with this information
+                      Navigator.pushNamed(context, '/itinerary', arguments: {});
                     } else {
                       setState(() {
                         currentStep += 1;
@@ -121,6 +124,9 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
               ),
             ),
           ),
+          const SizedBox(
+            height: AppMargins.XL,
+          )
         ],
       )),
     );
@@ -130,29 +136,48 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
     return <Step>[
       sliderStep(
           stepIndex: 0,
-          questionString: 'How long are you planning to stay?',
+          questionString: 'How many days are you planning to stay?',
           questionBool: showDaysQuestion,
-          showSlider: showDaysSlider,
           min: 1,
           max: 7),
       stringTagStep(
-          stepIndex: 1,
-          questionString: "What are your interests/hobbies?",
-          questionBool: showInterestQuestion,
-          showTags: showInterestPicker),
+        stepIndex: 1,
+        questionString: "What are your interests/hobbies?",
+        questionBool: showInterestQuestion,
+      ),
       stringTagStep(
-          stepIndex: 2,
-          questionString: "Where should the activities be located?",
-          questionBool: showIndoorQuestion,
-          showTags: showIndoorOutdoorPicker),
+        stepIndex: 2,
+        questionString: "Where should the activities be located?",
+        questionBool: showIndoorQuestion,
+      ),
       sliderStep(
           stepIndex: 3,
           questionString:
               'What’s your level of interest in historical sites and museums?',
           questionBool: showHistoryQuestion,
-          showSlider: showHistorySlider,
           min: 1,
           max: 5),
+      boolStep(
+        stepIndex: 4,
+        questionString: "Do you prefer a busy itinerary or a relaxed pace?",
+        questionBool: showBusyRelaxedQuestion,
+      ),
+      boolStep(
+        stepIndex: 5,
+        questionString:
+            "Do you have any physical contraints we should consider? (e.g. difficulties walking or climbing stairs)",
+        questionBool: showPhysicalQuestion,
+      ),
+      boolStep(
+        stepIndex: 6,
+        questionString: "Are you interested in the local nightlife?",
+        questionBool: showNightlifeQuestion,
+      ),
+      boolStep(
+        stepIndex: 7,
+        questionString: "Are you interested in local customs and traditions?",
+        questionBool: showTraditionsQuestion,
+      ),
     ];
   }
 
@@ -160,7 +185,6 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
     required int stepIndex,
     required String questionString,
     required bool questionBool,
-    required bool showSlider,
     required double min,
     required double max,
   }) {
@@ -189,33 +213,30 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
       ),
       content: Column(
         children: [
-          AnimatedOpacity(
-              opacity: showDaysSlider ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 100),
-              child: Slider.adaptive(
-                  min: min,
-                  max: max,
-                  divisions: max.round(),
-                  value: getValue(stepIndex),
-                  label: stepIndex == 0
-                      ? (getValue(stepIndex).round() == 1
-                          ? "${getValue(stepIndex).round()} day"
-                          : getValue(stepIndex) == 7
-                              ? "${getValue(stepIndex).round()}+ days"
-                              : "${getValue(stepIndex).round()} days")
-                      : "${getValue(stepIndex).round()}",
-                  onChanged: (value) {
-                    setState(() {
-                      switch (currentStep) {
-                        case 0:
-                          _tripDays = value;
-                          break;
-                        case 3:
-                          _historyInterest = value;
-                          break;
-                      }
-                    });
-                  })),
+          Slider.adaptive(
+              min: min,
+              max: max,
+              divisions: max.toInt() - 1,
+              value: getValue(stepIndex),
+              label: stepIndex == 0
+                  ? (getValue(stepIndex).round() == min
+                      ? "${getValue(stepIndex).round()} day"
+                      : getValue(stepIndex) == max
+                          ? "${getValue(stepIndex).round()}+ days"
+                          : "${getValue(stepIndex).round()} days")
+                  : "${getValue(stepIndex).round()}",
+              onChanged: (value) {
+                setState(() {
+                  switch (currentStep) {
+                    case 0:
+                      _tripDays = value;
+                      break;
+                    case 3:
+                      _historyInterest = value;
+                      break;
+                  }
+                });
+              }),
         ],
       ),
     );
@@ -225,7 +246,65 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
     required int stepIndex,
     required String questionString,
     required bool questionBool,
-    required bool showTags,
+  }) {
+    return Step(
+      state: currentStep > stepIndex ? StepState.complete : StepState.indexed,
+      isActive: currentStep >= stepIndex,
+      title: Visibility(
+        visible: questionBool,
+        child: AnimatedTextKit(
+          displayFullTextOnTap: true,
+          isRepeatingAnimation: false,
+          animatedTexts: [
+            TypewriterAnimatedText(
+              speed: textDuration,
+              questionString,
+              textStyle: const TextStyle(
+                  fontSize: AppFontSizes.L, fontWeight: FontWeight.bold),
+            ),
+          ],
+          onFinished: () {
+            setState(() {
+              showQuestionInput(stepIndex);
+            });
+          },
+        ),
+      ),
+      content: Column(
+        children: [
+          ChipsChoice<String>.multiple(
+            choiceStyle: C2ChipStyle.filled(
+              color: AppColors.sunset,
+              selectedStyle: C2ChipStyle.filled(color: AppColors.burntSienna),
+            ),
+            value: stepIndex == 1 ? _interests : _indoor,
+            onChanged: (value) {
+              setState(() {
+                switch (stepIndex) {
+                  case 1:
+                    _interests = value;
+                    break;
+                  case 2:
+                    _indoor = value;
+                    break;
+                }
+              });
+            },
+            choiceItems: C2Choice.listFrom<String, String>(
+              source: stepIndex == 1 ? options : locationOptions,
+              value: (i, v) => v,
+              label: (i, v) => v,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Step boolStep({
+    required int stepIndex,
+    required String questionString,
+    required bool questionBool,
   }) {
     return Step(
       state: currentStep > stepIndex ? StepState.complete : StepState.indexed,
@@ -255,28 +334,33 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
           AnimatedOpacity(
               opacity: showDaysSlider ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 100),
-              child: ChipsChoice<String>.multiple(
+              child: ChipsChoice<bool>.single(
                 choiceStyle: C2ChipStyle.filled(
                   color: AppColors.sunset,
                   selectedStyle:
                       C2ChipStyle.filled(color: AppColors.burntSienna),
                 ),
-                value: stepIndex == 1 ? _interests : _indoor,
-                onChanged: (value) {
+                value: stepIndex == 4
+                    ? _busy
+                    : stepIndex == 5
+                        ? _physicalConstraints
+                        : stepIndex == 6
+                            ? _nightlife
+                            : _traditions,
+                onChanged: (val) {
                   setState(() {
-                    switch (stepIndex) {
-                      case 1:
-                        _interests = value;
-                        break;
-                      case 2:
-                        _indoor = value;
-                        break;
-                    }
+                    stepIndex == 4
+                        ? _busy = val
+                        : stepIndex == 5
+                            ? _physicalConstraints = val
+                            : stepIndex == 6
+                                ? _nightlife = val
+                                : _traditions = val;
                   });
                 },
-                choiceItems: C2Choice.listFrom<String, String>(
-                  source: stepIndex == 1 ? options : locationOptions,
-                  value: (i, v) => v,
+                choiceItems: C2Choice.listFrom<bool, String>(
+                  source: stepIndex == 4 ? busyRelaxedOptions : boolOptions,
+                  value: (i, v) => i == 0 ? true : false,
                   label: (i, v) => v,
                 ),
               ))
@@ -326,7 +410,7 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
   }
 
   void showQuestionInput(int stepIndex) {
-    switch (currentStep) {
+    switch (stepIndex) {
       case 0:
         setState(() {
           showDaysSlider = true;
