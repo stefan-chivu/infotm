@@ -1,8 +1,8 @@
 import 'package:infotm/ui_components/custom_button.dart';
 import 'package:flutter/material.dart';
 // import '../../services/auth.dart';
-import '../../ui_components/custom_textfield.dart';
-import '../../ui_components/ui_specs.dart';
+import '/ui_components/custom_textfield.dart';
+import '/ui_components/ui_specs.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
