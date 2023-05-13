@@ -22,7 +22,7 @@ class AuthService {
       User? user = result.user;
       if (user != null && user.email != null) {
         bool isAdmin = await SqlService.getUserAdminStatus(user.uid);
-        IsarService.createUserFromFirestoreUser(user, isAdmin);
+        await IsarService.createUserFromFirestoreUser(user, isAdmin);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

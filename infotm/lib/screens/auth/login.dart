@@ -22,13 +22,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: Colors.white,
       body: Center(
           child: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.asset(
-            "assets/logo.png",
-            width: 500,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppMargins.L, vertical: AppMargins.M),
+            child: Image.asset(
+              "assets/images/logo.png",
+              width: 500,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(AppMargins.S),
@@ -71,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               child: CustomButton(
                   onPressed: () async {
                     showLoadingSnackBar(context, "Logging in...",
-                        color: AppColors.burntSienna, durationSeconds: 2);
+                        color: AppColors.airBlue, durationSeconds: 2);
                     if (_emailFormKey.currentState!.validate() &&
                         _passwordFormKey.currentState!.validate()) {
                       String result = await _auth.signInWithEmailAndPassword(
@@ -81,7 +86,8 @@ class _LoginPageState extends State<LoginPage> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(result)));
                         } else {
-                          Navigator.pushNamed(context, '/');
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/', (route) => false);
                         }
                       }
                     }
