@@ -34,8 +34,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           GoogleMap(
             trafficEnabled: true, // TODO add toggle
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            markers: getMarkers(providerData),
+            markers: providerData.markers,
             initialCameraPosition: const CameraPosition(
                 target: LatLng(45.755895, 21.228670), zoom: 12.8),
             onMapCreated: (controller) {
@@ -102,14 +101,5 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
     });
-  }
-
-  Set<Marker> getMarkers(List<Pin> pins) {
-    Set<Marker> markers = {};
-    for (Pin pin in pins) {
-      markers.add(pin.buildMarker());
-    }
-
-    return markers;
   }
 }
