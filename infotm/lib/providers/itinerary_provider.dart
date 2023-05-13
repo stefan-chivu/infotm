@@ -41,7 +41,7 @@ Itinerary parseItineraryFromJson(String jsonString) {
       }
 
       days.add(ItineraryDay(
-          title: title, description: description, attractions: []));
+          title: title, description: description, attractions: attractions));
     },
   );
 
