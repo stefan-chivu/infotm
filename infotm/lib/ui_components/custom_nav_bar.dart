@@ -30,20 +30,7 @@ class CustomNavBar extends StatelessWidget {
             Navigator.pushNamed(context, '/');
             break;
           case 1:
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                content: const Text('Profile'),
-                actions: <TextButton>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Close'),
-                  )
-                ],
-              ),
-            );
+            Navigator.pushNamed(context, '/profile');
             break;
         }
       }),

@@ -22,13 +22,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: Colors.white,
       body: Center(
           child: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.asset(
-            "assets/logo.png",
-            width: 500,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppMargins.L, vertical: AppMargins.M),
+            child: Image.asset(
+              "assets/images/logo.png",
+              width: 500,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(AppMargins.S),
