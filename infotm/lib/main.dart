@@ -34,9 +34,10 @@ class MyApp extends StatelessWidget {
               error: AppColors.burntSienna),
         ),
         routes: {
-          '/': (context) => const AddPin(),
+          '/': (context) => const HomePage(),
           '/profile': (context) => const ProfileWrapper(),
           '/register': (context) => const RegisterPage(),
+          '/add-pin': (context) => const AddPin(),
         });
   }
 }

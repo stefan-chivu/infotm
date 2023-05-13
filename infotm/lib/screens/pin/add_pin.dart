@@ -75,8 +75,8 @@ class _AddPinState extends State<AddPin> {
         child: Text('park'),
       ),
       DropdownMenuItem(
-        value: 'monument',
-        child: Text('monument'),
+        value: 'activities',
+        child: Text('activities'),
       ),
     ];
 
