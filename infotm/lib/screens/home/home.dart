@@ -32,7 +32,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       return Scaffold(
         body: Stack(children: [
           GoogleMap(
-            trafficEnabled: true, // TODO add toggle
+            // trafficEnabled: true, // TODO add toggle
             myLocationEnabled: true,
             markers: providerData.markers,
             initialCameraPosition: const CameraPosition(
