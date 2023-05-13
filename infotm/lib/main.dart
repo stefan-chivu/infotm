@@ -1,11 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infotm/screens/home/home.dart';
+import 'package:infotm/services/isar.dart';
+import 'package:infotm/services/location.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
 Future<void> main() async {
-  // TODO: initialize future services
+  WidgetsFlutterBinding.ensureInitialized();
+  await IsarService.openSchemas();
+  await LocationService.init();
 
   runApp(const ProviderScope(child: const MyApp()));
 }
