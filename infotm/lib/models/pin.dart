@@ -30,6 +30,8 @@ class Pin {
     PinType.park: 'assets/icons/park.png',
     PinType.landmark: 'assets/icons/landmark.png',
     PinType.activities: 'assets/icons/activities.png',
+    PinType.corp: 'assets/icons/corp.png',
+    PinType.church: 'assets/icons/church.png',
     PinType.other: 'assets/icons/other.png',
   };
 
