@@ -28,6 +28,8 @@ class Pin {
     PinType.waterFountain: 'assets/icons/waterFountain.png',
     PinType.institution: 'assets/icons/institution.png',
     PinType.park: 'assets/icons/park.png',
+    PinType.landmark: 'assets/icons/landmark.png',
+    PinType.activities: 'assets/icons/activities.png',
     PinType.other: 'assets/icons/other.png',
   };
 
@@ -50,4 +52,15 @@ class Pin {
   }
 }
 
-enum PinType { toilet, hospital, waterFountain, institution, park, other }
+enum PinType {
+  activities,
+  church,
+  corp,
+  hospital,
+  institution,
+  landmark,
+  other,
+  park,
+  toilet,
+  waterFountain
+}
