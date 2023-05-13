@@ -20,6 +20,10 @@ class CustomNavBar extends StatelessWidget {
             icon: Icon(Icons.home),
             label: "Home",
             backgroundColor: AppColors.davyGray),
+        const BottomNavigationBarItem(
+            icon: Icon(Icons.travel_explore_outlined),
+            label: "Plan trip",
+            backgroundColor: AppColors.davyGray),
         BottomNavigationBarItem(
             icon: const Icon(Icons.person),
             label: IsarService.isarUser.uid.isNotEmpty ? "Profile" : "Log-in",
@@ -31,6 +35,9 @@ class CustomNavBar extends StatelessWidget {
             Navigator.pushNamed(context, '/');
             break;
           case 1:
+            Navigator.pushNamed(context, '/plan-trip');
+            break;
+          case 2:
             Navigator.pushNamed(context, '/profile');
             break;
         }
