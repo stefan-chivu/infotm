@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               child: CustomButton(
                   onPressed: () async {
                     showLoadingSnackBar(context, "Logging in...",
-                        color: AppColors.burntSienna, durationSeconds: 2);
+                        color: AppColors.airBlue, durationSeconds: 2);
                     if (_emailFormKey.currentState!.validate() &&
                         _passwordFormKey.currentState!.validate()) {
                       String result = await _auth.signInWithEmailAndPassword(
@@ -86,7 +86,8 @@ class _LoginPageState extends State<LoginPage> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(result)));
                         } else {
-                          Navigator.pushNamed(context, '/');
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/', (route) => false);
                         }
                       }
                     }

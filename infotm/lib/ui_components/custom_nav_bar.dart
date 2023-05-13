@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infotm/services/isar.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
 class CustomNavBar extends StatelessWidget {
@@ -14,14 +15,14 @@ class CustomNavBar extends StatelessWidget {
       unselectedFontSize: AppFontSizes.L,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
             backgroundColor: AppColors.davyGray),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
+            icon: const Icon(Icons.person),
+            label: IsarService.isarUser.uid.isNotEmpty ? "Profile" : "Log-in",
             backgroundColor: AppColors.davyGray),
       ],
       onTap: ((index) {
