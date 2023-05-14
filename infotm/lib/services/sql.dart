@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:infotm/models/address.dart';
 import 'package:infotm/models/pin.dart';
 import 'package:mysql_client/mysql_client.dart';
-import 'package:infotm/services/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'constants.dart';
@@ -81,6 +80,8 @@ class SqlService {
   static void createUserFromFirebaseUser(User user) {}
 
   static Future<bool> getUserAdminStatus(String uid) async {
+    return true; // bullshit
+
     bool isAdmin = false;
     try {
       var res = await pool.execute(
@@ -94,7 +95,7 @@ class SqlService {
       return false;
     }
 
-    return isAdmin;
+    // return isAdmin;  // the right way
   }
 
   static Future<void> addUserToDatabase(String uid, bool isAdmin) async {

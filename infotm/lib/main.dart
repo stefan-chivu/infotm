@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileWrapper(),
         '/register': (context) => const RegisterPage(),
         '/plan-trip': (context) => const TripQuestionaire(),
+        '/pin-page': (context) => const AddPin(),
       },
     );
   }
