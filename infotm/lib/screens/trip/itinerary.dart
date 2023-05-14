@@ -14,9 +14,12 @@ class ItineraryPage extends ConsumerStatefulWidget {
 }
 
 class _ItineraryPageState extends ConsumerState<ItineraryPage> {
-  final ItineraryPrompt prompt = ItineraryPrompt({});
   @override
   Widget build(BuildContext context) {
+    final ItineraryPrompt prompt =
+        (ModalRoute.of(context)?.settings.arguments as ItineraryPrompt? ??
+            ItineraryPrompt({}));
+
     final providerData = ref.watch(itineraryProvider(prompt));
 
     return providerData.when(data: (providerData) {
