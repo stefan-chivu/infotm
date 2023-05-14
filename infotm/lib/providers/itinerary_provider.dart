@@ -1,11 +1,83 @@
 import 'dart:convert';
-
+import 'package:infotm/services/gpt_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infotm/models/pin.dart';
 import 'package:infotm/services/isar.dart';
 import 'package:infotm/services/sql.dart';
 import 'package:intl/intl.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+
+final dio = Dio(BaseOptions(
+    connectTimeout: Duration(minutes: 10),
+    receiveTimeout: Duration(minutes: 10)));
+
+final openAI = OpenAI.instance.build(
+    token: token,
+    baseOption: HttpSetup(receiveTimeout: const Duration(minutes: 10)),
+    isLog: true);
+
+// Future<String> getApiResponse(String systemPrompt, String userAnswer) async {
+//   final request = ChatCompleteText(messages: [
+//     Map.of({"role": "system", "content": systemPrompt}),
+//     Map.of({"role": "user", "content": userAnswer}),
+//   ], maxToken: 5000, model: ChatModel.gpt_4);
+
+//   final response = await openAI.onChatCompletion(request: request);
+//   for (var element in response!.choices) {
+//     print(element.message?.content);
+//     return element.message?.content ?? "";
+//   }
+
+//   return "";
+// }
+
+// Future<String> getApiResponse(String systemPrompt, String userAnswer) async {
+//   dio.options.headers["Authorization"] = "Bearer ${token}";
+//   final response =
+//       await dio.post("https://api.openai.com/v1/chat/completions", data: {
+//     "model": "gpt-4",
+//     "max_tokens": 5000,
+//     "messages": [
+//       {"role": "system", "content": systemPrompt},
+//       {"role": "user", "content": userAnswer}
+//     ],
+//   });
+
+//   //Map<String, dynamic> data = jsonDecode(response.toString());
+
+//   print(response.toString());
+//   return "";
+// }
+
+Future<String> getApiResponse(String systemPrompt, String userAnswer) async {
+  final String url = 'https://api.openai.com/v1/chat/completions';
+  final Map<String, String> headers = {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json'
+  };
+
+  final Map<String, dynamic> body = {
+    'model': 'gpt-4',
+    'max_tokens': 3500,
+    'messages': [
+      {'role': 'system', 'content': systemPrompt},
+      {'role': 'user', 'content': userAnswer},
+    ],
+  };
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: headers,
+    body: jsonEncode(body),
+  );
+
+  Map<String, dynamic> data = jsonDecode(response.body);
+  print(response.body);
+  return "";
+}
 
 final itineraryProvider =
     FutureProvider.family<Itinerary, ItineraryPrompt>((ref, input) async {
@@ -13,7 +85,12 @@ final itineraryProvider =
   // TODO: implement call to GPT-4 API
   await IsarService.setItinerary(sampleJson);
 
-  Itinerary itinerary = parseItineraryFromJson(sampleJson);
+  // Itinerary itinerary = parseItineraryFromJson(sampleJson);
+  print('API called');
+  String apiResponse = await getApiResponse(systemPrompt, input.toString());
+  print('API passed');
+
+  Itinerary itinerary = parseItineraryFromJson(apiResponse);
   return itinerary;
 });
 Itinerary parseItineraryFromJson(String jsonString) {
