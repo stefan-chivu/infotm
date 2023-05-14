@@ -25,6 +25,9 @@ class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
         _connectivityResult = result;
       });
     });
+    setState(() {
+      _connectivityResult = ConnectivityResult.none;
+    });
     Connectivity().checkConnectivity().then((ConnectivityResult result) {
       setState(() {
         _connectivityResult = result;
