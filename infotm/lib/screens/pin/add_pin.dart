@@ -78,6 +78,22 @@ class _AddPinState extends State<AddPin> {
         value: 'activities',
         child: Text('activities'),
       ),
+      DropdownMenuItem(
+        value: 'hospital',
+        child: Text('hospital'),
+      ),
+      DropdownMenuItem(
+        value: 'toilet',
+        child: Text('toilet'),
+      ),
+      DropdownMenuItem(
+        value: 'waterFountain',
+        child: Text('water fountain'),
+      ),
+      DropdownMenuItem(
+        value: 'other',
+        child: Text('other'),
+      ),
     ];
 
     return types;
