@@ -38,7 +38,7 @@ class DayDetails extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: AppMargins.L,
+          height: AppMargins.M,
         ),
         SizedBox(
             width: MediaQuery.of(context).size.width / 1.33,
@@ -64,13 +64,19 @@ class DayDetails extends StatelessWidget {
             title: Text(
               day.attractions[i].name,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: AppFontSizes.M,
+              ),
+            ),
+            subtitle: Text(
+              day.attractions[i].duration ?? '',
+              style: const TextStyle(
+                fontSize: AppFontSizes.M,
               ),
             ),
             leading: const CircleAvatar(
-              backgroundColor: AppColors.airBlue,
+              backgroundColor: AppColors.burntSienna,
               child: Icon(
-                Icons.info_outline,
+                Icons.tour,
                 color: Colors.white,
               ),
             ),

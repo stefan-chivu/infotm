@@ -1,6 +1,8 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:infotm/models/isar_user.dart';
+import 'package:infotm/services/isar.dart';
 import 'package:infotm/ui_components/custom_textfield.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
@@ -109,6 +111,7 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
                     animateNextStepQuestion(currentStep);
                     bool isLastStep = (currentStep == getSteps().length - 1);
                     if (isLastStep) {
+                      IsarService.isarItinerary.itinerary = '{}';
                       Navigator.pushNamed(context, '/itinerary', arguments: {});
                     } else {
                       setState(() {

@@ -7,6 +7,7 @@ import 'package:infotm/screens/auth/register.dart';
 import 'package:infotm/screens/home/connectivity_wrapper.dart';
 import 'package:infotm/screens/home/home.dart';
 import 'package:infotm/screens/trip/itinerary.dart';
+import 'package:infotm/screens/trip/itinerary_wrapper.dart';
 import 'package:infotm/screens/trip/questionaire.dart';
 import 'package:infotm/services/isar.dart';
 import 'package:infotm/services/location.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileWrapper(),
         '/register': (context) => const RegisterPage(),
         '/plan-trip': (context) => const TripQuestionaire(),
-        '/itinerary': (context) => const ItineraryPage(),
+        '/itinerary': (context) => const ItineraryWrapper(),
       },
     );
   }

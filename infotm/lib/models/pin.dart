@@ -45,10 +45,11 @@ class Pin {
     return Marker(
       markerId: MarkerId(id.toString()),
       position: LatLng(latitude, longitude),
-      infoWindow: InfoWindow(
-          title: name ?? '',
-          snippet:
-              '${address?.toString()}\n${scheduleStart.toString()} - ${scheduleEnd.toString()}'),
+      infoWindow: name != null
+          ? InfoWindow(
+              title: name,
+            )
+          : InfoWindow.noText,
       icon: customIcon,
     );
   }
