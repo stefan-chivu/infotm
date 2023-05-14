@@ -1,4 +1,5 @@
 import 'package:infotm/services/auth.dart';
+import 'package:infotm/ui_components/custom_app_bar.dart';
 import 'package:infotm/ui_components/custom_button.dart';
 import 'package:infotm/ui_components/custom_textfield.dart';
 import 'package:infotm/ui_components/loading_snack_bar.dart';
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CustomAppBar(title: "Sign-in"),
       backgroundColor: Colors.white,
       body: Center(
           child: SingleChildScrollView(

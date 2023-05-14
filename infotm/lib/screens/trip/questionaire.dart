@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:infotm/models/isar_user.dart';
 import 'package:infotm/services/isar.dart';
+import 'package:infotm/ui_components/custom_app_bar.dart';
 import 'package:infotm/ui_components/custom_textfield.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
@@ -63,7 +64,7 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CustomAppBar(title: "Trip planning"),
       body: SingleChildScrollView(
           child: Column(
         children: [

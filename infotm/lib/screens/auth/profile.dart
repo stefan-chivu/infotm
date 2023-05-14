@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:infotm/services/auth.dart';
+import 'package:infotm/ui_components/custom_app_bar.dart';
 import 'package:infotm/ui_components/custom_nav_bar.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
 
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CustomAppBar(title: "Profile"),
       body: SingleChildScrollView(
           child: Column(
         children: [
