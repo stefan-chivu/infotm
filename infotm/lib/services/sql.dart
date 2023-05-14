@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:infotm/models/address.dart';
 import 'package:infotm/models/pin.dart';
 import 'package:mysql_client/mysql_client.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'constants.dart';
 
@@ -57,14 +58,33 @@ class SqlService {
     return pins;
   }
 
+  static Future<String> addPin(LatLng latLng, String type, String name) async {
+    try {
+      var res = await pool.execute(
+        "INSERT INTO `Pins` (`latitude`, `longitude`, `type`, `name`) VALUES (:latitude, :longitude, :type, :name)",
+        {
+          "latitude": latLng.latitude,
+          "longitude": latLng.longitude,
+          "type": type,
+          "name": name
+        },
+      ).timeout(Constants.sqlTimeoutDuration,
+          onTimeout: () => throw TimeoutException(Constants.sqlTimeoutMessage));
+      print(res.affectedRows);
+    } catch (e) {
+      return e.toString();
+    }
+    return "Pin added successfully";
+  }
+
   static void createUserFromFirebaseUser(User user) {}
 
   static Future<bool> getUserAdminStatus(String uid) async {
     bool isAdmin = false;
     try {
       var res = await pool.execute(
-          "SELECT is_admin FROM Users WHERE uid = :uid", {
-        uid: uid
+          "SELECT is_admin FROM Users WHERE uid=:uid", {
+        'uid': uid
       }).timeout(Constants.sqlTimeoutDuration,
           onTimeout: () => throw TimeoutException(Constants.sqlTimeoutMessage));
 
@@ -73,7 +93,7 @@ class SqlService {
       return false;
     }
 
-    return isAdmin;
+    return isAdmin; // the right way
   }
 
   static Future<void> addUserToDatabase(String uid, bool isAdmin) async {

@@ -1,8 +1,11 @@
 import 'package:infotm/models/address.dart';
 import 'package:geocoding/geocoding.dart' as geocodingpkg;
 import 'package:geolocator/geolocator.dart';
+import 'dart:math';
 
 class LocationService {
+  static final Future<Position> location = Geolocator.getCurrentPosition();
+
   LocationService._privateConstructor();
   static final LocationService instance = LocationService._privateConstructor();
 
@@ -37,6 +40,10 @@ class LocationService {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+  }
+
+  static Future<Position> getCurrentLocation() async {
+    return await Geolocator.getCurrentPosition();
   }
 
   static Future<Address> addressFromLatLng(

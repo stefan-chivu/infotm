@@ -6,6 +6,7 @@ import 'package:infotm/screens/auth/profile_wrapper.dart';
 import 'package:infotm/screens/auth/register.dart';
 import 'package:infotm/screens/home/connectivity_wrapper.dart';
 import 'package:infotm/screens/home/home.dart';
+import 'package:infotm/screens/pin/add_pin.dart';
 import 'package:infotm/screens/trip/itinerary.dart';
 import 'package:infotm/screens/trip/itinerary_wrapper.dart';
 import 'package:infotm/screens/trip/questionaire.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
   await LocationService.init();
 
   runApp(
-    const ProviderScope(child: const MyApp()),
+    const ProviderScope(child: MyApp()),
   );
 }
 
@@ -48,7 +49,9 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileWrapper(),
         '/register': (context) => const RegisterPage(),
         '/plan-trip': (context) => const TripQuestionaire(),
-        '/itinerary': (context) => const ItineraryWrapper(),
+        '/pin-page': (context) => const AddPin(),
+        '/itinerary': (context) => const ItineraryPage(),
+        // '/itinerary': (context) => const ItineraryWrapper(),
       },
     );
   }
