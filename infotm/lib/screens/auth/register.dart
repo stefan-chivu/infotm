@@ -1,4 +1,5 @@
 import 'package:infotm/services/auth.dart';
+import 'package:infotm/ui_components/custom_app_bar.dart';
 import 'package:infotm/ui_components/custom_button.dart';
 import 'package:flutter/material.dart';
 // import '../../services/auth.dart';
@@ -27,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CustomAppBar(title: "Sign-up"),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
