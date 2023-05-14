@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infotm/providers/itinerary_provider.dart';
 import 'package:infotm/screens/trip/day_details.dart';
+import 'package:infotm/ui_components/custom_app_bar.dart';
 import 'package:infotm/ui_components/custom_nav_bar.dart';
 import 'package:infotm/ui_components/itinerary_day_expansion_panel.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
@@ -21,9 +22,7 @@ class _ItineraryPageState extends ConsumerState<ItineraryPage> {
 
     return providerData.when(data: (providerData) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Itinerary'),
-        ),
+        appBar: CustomAppBar(title: "Itinerary"),
         body: Center(
           child: ListView.builder(
             itemCount: providerData.days.length,
