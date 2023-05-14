@@ -3,17 +3,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infotm/models/pin.dart';
 import 'package:infotm/services/sql.dart';
 
-final pinProvider = FutureProvider<PinProviderData>((ref) async {
+final pinProvider =
+    FutureProvider.family<PinProviderData, List<String>>((ref, input) async {
   List<Pin> pins = await SqlService.getAllPins();
-  Set<Marker> markers = await getMarkers(pins);
+  Set<Marker> markers = await getMarkers(pins, input);
   return PinProviderData(pins, markers);
 });
 
-Future<Set<Marker>> getMarkers(List<Pin> pins) async {
+Future<Set<Marker>> getMarkers(List<Pin> pins, List<String> filter) async {
   Set<Marker> markers = {};
   for (Pin pin in pins) {
-    Marker marker = await pin.buildMarker();
-    markers.add(marker);
+    if (filter.contains(pin.type.name)) {
+      Marker marker = await pin.buildMarker();
+      markers.add(marker);
+    }
   }
 
   return markers;

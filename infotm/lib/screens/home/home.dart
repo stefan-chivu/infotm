@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infotm/models/pin.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:infotm/providers/pin_provider.dart';
 import 'package:infotm/ui_components/custom_nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,9 +17,21 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   LatLng? tmpPosition;
   GoogleMapController? _mapController;
-  List<String> selectedOptions = [];
 
   List<String> options = [
+    "activities",
+    "church",
+    "corp",
+    "hospital",
+    "institution",
+    "landmark",
+    "other",
+    "park",
+    "toilet",
+    "waterFountain"
+  ];
+
+  List<String> selectedOptions = [
     "activities",
     "church",
     "corp",
@@ -50,8 +62,8 @@ class _HomePageState extends ConsumerState<HomePage> {
               height: 300,
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       'Filter Options',
                       style: TextStyle(
@@ -63,10 +75,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: ChipsChoice<String>.multiple(
+                        choiceStyle: C2ChipStyle.filled(
+                          color: AppColors.sunset,
+                          selectedStyle:
+                              C2ChipStyle.filled(color: AppColors.burntSienna),
+                        ),
                         value: selectedOptions,
                         onChanged: (values) {
                           setState(() {
                             selectedOptions = values;
+                            super.setState(() {});
                           });
                         },
                         choiceItems: C2Choice.listFrom<String, String>(
@@ -81,9 +99,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      //Add logic
+
+                      ref.refresh(pinProvider(selectedOptions));
                     },
-                    child: Text('Apply Filter'),
+                    child: const Text('Apply Filter'),
                   ),
                 ],
               ),
@@ -96,7 +115,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final providerData = ref.watch(pinProvider);
+    final providerData = ref.watch(pinProvider(selectedOptions));
     return providerData.when(
       data: (providerData) {
         return Scaffold(
@@ -104,19 +123,15 @@ class _HomePageState extends ConsumerState<HomePage> {
             children: [
               GoogleMap(
                 myLocationEnabled: true,
+                myLocationButtonEnabled: false,
                 markers: providerData.markers,
                 initialCameraPosition: const CameraPosition(
                   target: LatLng(45.755895, 21.228670),
-                  zoom: 12.8,
+                  zoom: 15,
                 ),
                 onMapCreated: (controller) {
                   _mapController = controller;
                   _mapController!.setMapStyle(mapStyleString);
-                },
-                onCameraMove: (position) {
-                  setState(() {
-                    tmpPosition = position.target;
-                  });
                 },
               ),
               Align(
@@ -136,7 +151,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                         color: Colors.white,
                         onPressed: () async {
                           if (_mapController != null) {
-                            // TODO: animate camera to new position
+                            Position pos =
+                                await Geolocator.getCurrentPosition();
+                            _mapController!.animateCamera(
+                                CameraUpdate.newLatLng(
+                                    LatLng(pos.latitude, pos.longitude)));
                           }
                         },
                         icon: const Icon(
@@ -148,14 +167,31 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 16,
-                right: 16,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    showFilterModal(context);
-                  },
-                  child: Icon(Icons.filter_list),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppMargins.S, vertical: 2.1 * AppMargins.L),
+                  child: Material(
+                    shape: const CircleBorder(side: BorderSide.none),
+                    elevation: 8,
+                    child: Ink(
+                      decoration: const ShapeDecoration(
+                        color: AppColors.davyGray,
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                        color: Colors.white,
+                        onPressed: () async {
+                          showFilterModal(context);
+                        },
+                        icon: const Icon(
+                          Icons.filter_alt,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

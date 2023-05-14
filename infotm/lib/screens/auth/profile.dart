@@ -69,10 +69,10 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.pushNamed(context, '/pin-page');
               },
-              child: Icon(Icons.add_location_alt_outlined),
+              child: const Icon(Icons.add_location_alt_outlined),
             );
           } else {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
         },
       ),

@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infotm/models/pin.dart';
+import 'package:infotm/services/isar.dart';
 import 'package:infotm/services/sql.dart';
 import 'package:intl/intl.dart';
 
 final itineraryProvider =
     FutureProvider.family<Itinerary, ItineraryPrompt>((ref, input) async {
   // TODO: implement call to GPT-4 API
-  print('Provider called');
-  Itinerary itinerary = parseItineraryFromJson(sampleJson);
+  await IsarService.setItinerary(sampleJson);
 
+  Itinerary itinerary = parseItineraryFromJson(sampleJson);
   return itinerary;
 });
 Itinerary parseItineraryFromJson(String jsonString) {

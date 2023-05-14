@@ -34,6 +34,7 @@ class _ItineraryPageState extends ConsumerState<ItineraryPage> {
                   child: ListTile(
                     onTap: () {
                       showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
                             return Wrap(children: [

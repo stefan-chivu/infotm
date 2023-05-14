@@ -80,13 +80,11 @@ class SqlService {
   static void createUserFromFirebaseUser(User user) {}
 
   static Future<bool> getUserAdminStatus(String uid) async {
-    return true; // bullshit
-
     bool isAdmin = false;
     try {
       var res = await pool.execute(
-          "SELECT is_admin FROM Users WHERE uid = :uid", {
-        uid: uid
+          "SELECT is_admin FROM Users WHERE uid=:uid", {
+        'uid': uid
       }).timeout(Constants.sqlTimeoutDuration,
           onTimeout: () => throw TimeoutException(Constants.sqlTimeoutMessage));
 
@@ -95,7 +93,7 @@ class SqlService {
       return false;
     }
 
-    // return isAdmin;  // the right way
+    return isAdmin; // the right way
   }
 
   static Future<void> addUserToDatabase(String uid, bool isAdmin) async {
