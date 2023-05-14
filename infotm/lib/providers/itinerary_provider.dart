@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 final itineraryProvider =
     FutureProvider.family<Itinerary, ItineraryPrompt>((ref, input) async {
+  print(input.toString());
   // TODO: implement call to GPT-4 API
   await IsarService.setItinerary(sampleJson);
 
@@ -138,7 +139,7 @@ class ItineraryAttraction {
 }
 
 class ItineraryPrompt {
-  Map<String, dynamic> questions;
+  Map<String, String> questions;
   DateTime now = DateTime.now();
 
   ItineraryPrompt(this.questions);
@@ -147,7 +148,7 @@ class ItineraryPrompt {
     String result = "";
     questions.forEach((key, value) {
       result += key;
-      result += '\n$value';
+      result += '\n$value\n';
     });
 
     result += DateFormat.yMMMMd().format(now);

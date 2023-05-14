@@ -2,6 +2,7 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:infotm/models/isar_user.dart';
+import 'package:infotm/providers/itinerary_provider.dart';
 import 'package:infotm/services/isar.dart';
 import 'package:infotm/ui_components/custom_textfield.dart';
 import 'package:infotm/ui_components/ui_specs.dart';
@@ -112,7 +113,26 @@ class _TripQuestionaireState extends State<TripQuestionaire> {
                     bool isLastStep = (currentStep == getSteps().length - 1);
                     if (isLastStep) {
                       IsarService.isarItinerary.itinerary = '{}';
-                      Navigator.pushNamed(context, '/itinerary', arguments: {});
+                      ItineraryPrompt prompt = ItineraryPrompt({
+                        'How many days are you planning to stay?':
+                            "${_tripDays.round()}",
+                        "What are your interests/hobbies?":
+                            _interests.toString(),
+                        "Where should the activities be located?":
+                            _indoor.toString(),
+                        'What’s your level of interest in historical sites and museums?':
+                            "${_historyInterest.round()}",
+                        "Do you prefer a busy itinerary or a relaxed pace?":
+                            _busy ? 'busy' : 'relaxed',
+                        "Do you have any physical contraints we should consider? (e.g. difficulties walking or climbing stairs)":
+                            _physicalConstraints ? 'yes' : 'no',
+                        "Are you interested in the local nightlife?":
+                            _nightlife ? 'yes' : 'no',
+                        "Are you interested in local customs and traditions?":
+                            _traditions ? 'yes' : 'no',
+                      });
+                      Navigator.pushNamed(context, '/itinerary',
+                          arguments: prompt);
                     } else {
                       setState(() {
                         currentStep += 1;
